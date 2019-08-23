@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PathManager : MonoBehaviour
 {
-
     [SerializeField] private GameObject nodeGrid;
     [SerializeField] private float nodeSearchDistance;
     //[SerializeField] private GameObject originNode;
@@ -26,7 +25,7 @@ public class PathManager : MonoBehaviour
         NodeClass auxNode;
         for (int i = 0; i < grid.GetNodeCant; i++)
         {
-            auxNode = grid.GetNodes[i].GetComponent<NodeClass>();
+            auxNode = grid.GetNodes[i];
             existingNodes.Add(auxNode);
         }
 
@@ -42,27 +41,27 @@ public class PathManager : MonoBehaviour
 
     public List<NodeClass> ChartRoute(Vector3 orig, Vector3 dest)
     {
-        float nodoDest = (existingNodes[0].gameObject.transform.position - dest).magnitude;
-        float nodoOrig = (existingNodes[0].gameObject.transform.position - orig).magnitude;
+        float nodoDest = (existingNodes[0].posMod - dest).magnitude;
+        float nodoOrig = (existingNodes[0].posMod - orig).magnitude;
         int indexD = 0;
         int indexO = 0;
         for (int i = 0; i < existingNodes.Count; i++)
         {
-            if ((existingNodes[i].gameObject.transform.position - dest).magnitude < nodoDest)
+            if ((existingNodes[i].posMod - dest).magnitude < nodoDest)
             {
-                nodoDest = (existingNodes[i].gameObject.transform.position - dest).magnitude;
+                nodoDest = (existingNodes[i].posMod - dest).magnitude;
                 indexD = i;
             }
-            if ((existingNodes[i].gameObject.transform.position - orig).magnitude < nodoOrig)
+            if ((existingNodes[i].posMod - orig).magnitude < nodoOrig)
             {
-                nodoOrig = (existingNodes[i].gameObject.transform.position - orig).magnitude;
+                nodoOrig = (existingNodes[i].posMod - orig).magnitude;
                 indexO = i;
             }
         }
         NodeClass origin = existingNodes[indexO];
         NodeClass objective = existingNodes[indexD];
         openNodes.Add(origin);
-        origin.isOpen = true;
+        origin.isOpenMod = true;
         origin.Parent = null;
 
         while (openNodes.Count > 0)
@@ -75,13 +74,13 @@ public class PathManager : MonoBehaviour
             }
             closedNodes.Add(nodo);
             openNodes.Remove(nodo);
-            for (int i = 0; i < nodo.adyacentNodes.Count; i++)
+            for (int i = 0; i < nodo.adyacentNodesMod.Count; i++)
             {
-                if (!nodo.adyacentNodes[i].isOpen)
+                if (!nodo.adyacentNodesMod[i].isOpenMod)
                 {
-                    openNodes.Add(nodo.adyacentNodes[i]);
-                    nodo.adyacentNodes[i].Parent = nodo;
-                    nodo.adyacentNodes[i].isOpen = true;
+                    openNodes.Add(nodo.adyacentNodesMod[i]);
+                    nodo.adyacentNodesMod[i].Parent = nodo;
+                    nodo.adyacentNodesMod[i].isOpenMod = true;
                 }
             }
         }
@@ -105,7 +104,7 @@ public class PathManager : MonoBehaviour
     {
         for (int i = 0; i < existingNodes.Count; i++)
         {
-            existingNodes[i].isOpen = false;
+            existingNodes[i].isOpenMod = false;
         }
         openNodes.Clear();
         closedNodes.Clear();
@@ -113,11 +112,11 @@ public class PathManager : MonoBehaviour
 
     NodeClass SelectNodes()
     {
-        if (algo == Algoritmos.breathfirst)
+        if (algo == Algoritmos.BreathFirst)
         {
             return openNodes[0];
         }
-        else if (algo == Algoritmos.depthfirst)
+        else if (algo == Algoritmos.DepthFirst)
         {
             return openNodes[openNodes.Count - 1];
         }

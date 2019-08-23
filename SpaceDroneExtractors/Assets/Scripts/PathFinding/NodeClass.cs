@@ -9,8 +9,8 @@ public class NodeClass : MonoBehaviour
     [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private LayerMask layerMask;
 
-    public List<NodeClass> adyacentNodes;
-    public bool isOpen = false;
+    private List<NodeClass> adyacentNodes;
+    private bool isOpen = false;
 
     private NodeClass parent;
     private Vector3 nodeSize;
@@ -80,7 +80,7 @@ public class NodeClass : MonoBehaviour
 
     public void SearchAdyacent(float distance)
     {
-        RaycastHit hit;
+        /*RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, distance, layerMask))
         {
             if (hit.collider.gameObject.GetComponent<NodeClass>().Obstructed == false)
@@ -136,7 +136,20 @@ public class NodeClass : MonoBehaviour
             {
                 adyacentNodes.Add(hit.collider.gameObject.GetComponent<NodeClass>());
             }
-        }
+        }*/
+// MUST CREATE A NEW WAY TO FIND ADYACENT NODES AS THEY ARE NO LONGER OBJECTS IN THE WORLD BUT INTANGIBLE POINTS WITH POSITIONS 
+
+    }
+
+    public bool isOpenMod
+    {
+        set { isOpen = value; }
+        get { return isOpen; }
+    }
+
+    public List<NodeClass> adyacentNodesMod
+    {
+        get { return adyacentNodes; }
     }
 
     private void OnDrawGizmos()
