@@ -22,16 +22,16 @@ public class PathManager : MonoBehaviour
         closedNodes = new List<NodeClass>();
         NodeGrid grid = nodeGrid.GetComponent<NodeGrid>();
 
-        NodeClass auxNode;
+        //NodeClass auxNode;
         for (int i = 0; i < grid.GetNodeCant; i++)
         {
-            auxNode = grid.GetNodes[i];
-            existingNodes.Add(auxNode);
+            //auxNode = grid.GetNodes[i];
+            existingNodes.Add(grid.GetNodes[i]);
         }
 
         for (int i = 0; i < existingNodes.Count; i++)
         {
-            existingNodes[i].SearchAdyacent(nodeSearchDistance);
+            existingNodes[i].SearchAdyacent(nodeSearchDistance, existingNodes);
         }
 
     }

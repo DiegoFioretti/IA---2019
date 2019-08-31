@@ -12,6 +12,11 @@ public class NodeClass : MonoBehaviour
     private List<NodeClass> adyacentNodes;
     private bool isOpen = false;
 
+    private float minX;
+    private float maxX;
+    private float minY;
+    private float maxY;
+
     private NodeClass parent;
     private Vector3 nodeSize;
     private Vector3 position;
@@ -41,12 +46,20 @@ public class NodeClass : MonoBehaviour
         get { return parent; }
     }
 
+    public void setSearchRange(float range)
+    {
+        minX = posMod.x - range;
+        maxX = posMod.x + range;
+        minY = posMod.y - range;
+        maxY = posMod.y + range;
+}
+
     public bool Obstructed
     {
         set
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position + new Vector3(0, 3, 0), transform.TransformDirection(Vector3.down), out hit, 3, obstacleMask))
+            if (Physics.Raycast(posMod + new Vector3(0, 3, 0), transform.TransformDirection(Vector3.down), out hit, 3, obstacleMask))
             {
                 isObstructed = true;
             }
@@ -63,7 +76,7 @@ public class NodeClass : MonoBehaviour
         set
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position + new Vector3(0, 3, 0), transform.TransformDirection(Vector3.down), out hit, 3, terrainMask))
+            if (Physics.Raycast(posMod + new Vector3(0, 3, 0), transform.TransformDirection(Vector3.down), out hit, 3, terrainMask))
             {
                 if (hit.collider.tag == "TerrainForest")
                 {
@@ -78,67 +91,15 @@ public class NodeClass : MonoBehaviour
         get { return value; }
     }
 
-    public void SearchAdyacent(float distance)
+    public void SearchAdyacent(float distance, List<NodeClass> nodes)
     {
-        /*RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, distance, layerMask))
+        for (int i = 0; i < nodes.Count; i++)
         {
-            if (hit.collider.gameObject.GetComponent<NodeClass>().Obstructed == false)
+            if (nodes[i].posMod.x < maxX && nodes[i].posMod.x > minX && nodes[i].posMod.y < maxY && nodes[i].posMod.y > minY)
             {
-                adyacentNodes.Add(hit.collider.gameObject.GetComponent<NodeClass>());
+                adyacentNodes.Add(nodes[i]);
             }
         }
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), out hit, distance, layerMask))
-        {
-            if (hit.collider.gameObject.GetComponent<NodeClass>().Obstructed == false)
-            {
-                adyacentNodes.Add(hit.collider.gameObject.GetComponent<NodeClass>());
-            }
-        }
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), out hit, distance, layerMask))
-        {
-            if (hit.collider.gameObject.GetComponent<NodeClass>().Obstructed == false)
-            {
-                adyacentNodes.Add(hit.collider.gameObject.GetComponent<NodeClass>());
-            }
-        }
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out hit, distance, layerMask))
-        {
-            if (hit.collider.gameObject.GetComponent<NodeClass>().Obstructed == false)
-            {
-                adyacentNodes.Add(hit.collider.gameObject.GetComponent<NodeClass>());
-            }
-        }
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + Vector3.left), out hit, distance, layerMask))
-        {
-            if (hit.collider.gameObject.GetComponent<NodeClass>().Obstructed == false)
-            {
-                adyacentNodes.Add(hit.collider.gameObject.GetComponent<NodeClass>());
-            }
-        }
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + Vector3.right), out hit, distance, layerMask))
-        {
-            if (hit.collider.gameObject.GetComponent<NodeClass>().Obstructed == false)
-            {
-                adyacentNodes.Add(hit.collider.gameObject.GetComponent<NodeClass>());
-            }
-        }
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back + Vector3.left), out hit, distance, layerMask))
-        {
-            if (hit.collider.gameObject.GetComponent<NodeClass>().Obstructed == false)
-            {
-                adyacentNodes.Add(hit.collider.gameObject.GetComponent<NodeClass>());
-            }
-        }
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back + Vector3.left), out hit, distance, layerMask))
-        {
-            if (hit.collider.gameObject.GetComponent<NodeClass>().Obstructed == false)
-            {
-                adyacentNodes.Add(hit.collider.gameObject.GetComponent<NodeClass>());
-            }
-        }*/
-// MUST CREATE A NEW WAY TO FIND ADYACENT NODES AS THEY ARE NO LONGER OBJECTS IN THE WORLD BUT INTANGIBLE POINTS WITH POSITIONS 
-
     }
 
     public bool isOpenMod
@@ -156,12 +117,12 @@ public class NodeClass : MonoBehaviour
     {
         if (isObstructed)
         {
-            Gizmos.color = new Color(1, 0, 0, 0.5f);
+            Gizmos.color = Color.red;
         }
         else
         {
-            Gizmos.color = new Color(0, 0, 0, 0.5f);
+            Gizmos.color = Color.yellow;
         }
-        Gizmos.DrawCube(transform.position, nodeSize);
+        Gizmos.DrawCube(posMod, nodeSize);
     }
 }

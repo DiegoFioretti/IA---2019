@@ -292,7 +292,7 @@ MeshCollider:
   m_GameObject: {fileID: 694165048}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -368,6 +368,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a45cbc7b261bbf4d90ecc2c10179bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridDimesion: {x: 25, y: 1, z: 25}
+  nodeGap: 1
+  nodeSize: {x: 0.5, y: 0.5, z: 0.5}
+  searchDistance: 0
+  nodes: []
 --- !u!1 &1011587615
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,6 +535,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cfdc29879dce324892ccfebd8b6b91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nodeGrid: {fileID: 694165048}
+  nodeSearchDistance: 1
+  algo: 0
 --- !u!1 &1108880091
 GameObject:
   m_ObjectHideFlags: 0
