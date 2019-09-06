@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NodeClass : MonoBehaviour
+public class NodeClass
 {
 
     [SerializeField] private LayerMask terrainMask;
@@ -56,7 +56,7 @@ public class NodeClass : MonoBehaviour
 
     public bool Obstructed
     {
-        set
+        /*set
         {
             RaycastHit hit;
             if (Physics.Raycast(posMod + new Vector3(0, 3, 0), transform.TransformDirection(Vector3.down), out hit, 3, obstacleMask))
@@ -67,13 +67,13 @@ public class NodeClass : MonoBehaviour
             {
                 isObstructed = false;
             }
-        }
+        }*/
         get { return isObstructed; }
     }
 
     public int Value
     {
-        set
+        /*set
         {
             RaycastHit hit;
             if (Physics.Raycast(posMod + new Vector3(0, 3, 0), transform.TransformDirection(Vector3.down), out hit, 3, terrainMask))
@@ -87,7 +87,7 @@ public class NodeClass : MonoBehaviour
                     value = 1;
                 }
             }
-        }
+        }*/
         get { return value; }
     }
 
@@ -111,18 +111,5 @@ public class NodeClass : MonoBehaviour
     public List<NodeClass> adyacentNodesMod
     {
         get { return adyacentNodes; }
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (isObstructed)
-        {
-            Gizmos.color = Color.red;
-        }
-        else
-        {
-            Gizmos.color = Color.yellow;
-        }
-        Gizmos.DrawCube(posMod, nodeSize);
     }
 }
