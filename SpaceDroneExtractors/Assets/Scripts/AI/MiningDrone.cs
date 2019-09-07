@@ -19,13 +19,18 @@ public class MiningDrone : MonoBehaviour
     private const int stateCount = 5;
     private const int eventCount = 5;
     private int currentState = 0;
-    private RaycastHit ray;
+    //private RaycastHit ray;
 
-    private NavMeshAgent nma;
+    //private NavMeshAgent nma;
+    private Rigidbody rbody;
+    private PathManager pathMan;
     private GoldCloud _mineCheck;
     private GameObject _mine;
     private GameObject _base;
 
+    List<NodeClass> path;
+
+    [SerializeField] private float movSpeed = 0;
     [SerializeField] private int maxGold = 0;
     [SerializeField] private int currentGold = 0;
     [SerializeField] private bool doesMineExist = false;
@@ -34,7 +39,10 @@ public class MiningDrone : MonoBehaviour
 
     void Awake()
     {
-        nma = GetComponent<NavMeshAgent>();
+        //nma = GetComponent<NavMeshAgent>();
+        pathMan = GetComponent<PathManager>();
+        rbody = GetComponent<Rigidbody>();
+        path = new List<NodeClass>();
 
         fsm = new FSM(stateCount, eventCount);
         /*
@@ -88,11 +96,21 @@ public class MiningDrone : MonoBehaviour
                 break;
             case 1:
                 //Move to mine
-                nma.destination = _mine.transform.position;
+                //nma.destination = _mine.transform.position;
+                if (path.Count <= 0)
+                {
+                    path = pathMan.ChartRoute(transform.position, _mine.transform.position);
+                }
+                TravelPath();
                 break;
             case 2:
                 //Move to base
-                nma.destination = _base.transform.position;
+                //nma.destination = _base.transform.position;
+                if (path.Count <= 0)
+                {
+                    path = pathMan.ChartRoute(transform.position, _base.transform.position);
+                }
+                TravelPath();
                 break;
             case 3:
                 //Get gold
@@ -103,6 +121,22 @@ public class MiningDrone : MonoBehaviour
                 //Deposit gold
                 currentGold--;
                 break;
+        }
+    }
+
+    private void TravelPath()
+    {
+        if (path.Count <= 1)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, path[0].posMod, movSpeed * Time.deltaTime);
+        }
+        else if (path.Count > 1)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, path[path.Count - 1].posMod, movSpeed * Time.deltaTime);
+        }
+        if ((transform.position - path[path.Count - 1].posMod).magnitude < 1)
+        {
+            path.Remove(path[path.Count - 1]);
         }
     }
 

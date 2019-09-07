@@ -14,10 +14,11 @@ public class NodeClass
 
     private float minX;
     private float maxX;
-    private float minY;
-    private float maxY;
+    private float minZ;
+    private float maxZ;
 
     private NodeClass parent;
+    private NodeClass auxNode;
     private Vector3 nodeSize;
     private Vector3 position;
     private bool isObstructed = false;
@@ -50,9 +51,9 @@ public class NodeClass
     {
         minX = posMod.x - range;
         maxX = posMod.x + range;
-        minY = posMod.y - range;
-        maxY = posMod.y + range;
-}
+        minZ = posMod.z - range;
+        maxZ = posMod.z + range;
+    }
 
     public bool Obstructed
     {
@@ -91,13 +92,17 @@ public class NodeClass
         get { return value; }
     }
 
-    public void SearchAdyacent(float distance, List<NodeClass> nodes)
+    public void SearchAdyacent(List<NodeClass> nodes)
     {
-        for (int i = 0; i < nodes.Count; i++)
+        if (nodes != null || nodes.Count > 0)
         {
-            if (nodes[i].posMod.x < maxX && nodes[i].posMod.x > minX && nodes[i].posMod.y < maxY && nodes[i].posMod.y > minY)
+            for (int i = 0; i < nodes.Count; i++)
             {
-                adyacentNodes.Add(nodes[i]);
+                if (nodes[i].posMod.x < maxX && nodes[i].posMod.x > minX && nodes[i].posMod.z < maxZ && nodes[i].posMod.z > minZ && nodes[i] != this)
+                {
+                    auxNode = nodes[i];
+                    adyacentNodes.Add(auxNode);
+                }
             }
         }
     }

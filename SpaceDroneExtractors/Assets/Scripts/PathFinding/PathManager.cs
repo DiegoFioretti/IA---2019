@@ -22,22 +22,23 @@ public class PathManager : MonoBehaviour
         closedNodes = new List<NodeClass>();
         NodeGrid grid = nodeGrid.GetComponent<NodeGrid>();
 
-        //NodeClass auxNode;
+        NodeClass auxNode;
         for (int i = 0; i < grid.GetNodeCant; i++)
         {
-            //auxNode = grid.GetNodes[i];
-            existingNodes.Add(grid.GetNodes[i]);
+            auxNode = grid.GetNodes[i];
+            existingNodes.Add(auxNode);
         }
 
         for (int i = 0; i < existingNodes.Count; i++)
         {
-            existingNodes[i].SearchAdyacent(nodeSearchDistance, existingNodes);
+            existingNodes[i].setSearchRange(nodeSearchDistance);
+            existingNodes[i].SearchAdyacent(existingNodes);
         }
 
     }
 
     private enum Algoritmos { BreathFirst = 0, DepthFirst = 1, Dijkstra = 2, Estrella = 3 }
-    [SerializeField] private Algoritmos algo = Algoritmos.BreathFirst;
+    [SerializeField] private Algoritmos Algoritmo = Algoritmos.BreathFirst;
 
     public List<NodeClass> ChartRoute(Vector3 orig, Vector3 dest)
     {
@@ -67,6 +68,10 @@ public class PathManager : MonoBehaviour
         while (openNodes.Count > 0)
         {
             NodeClass nodo = SelectNodes();
+            if (nodo == null)
+            {
+                Debug.Log("NODO VACIO");
+            }
             if (nodo == objective)
             {
                 CleanUp();
@@ -76,6 +81,10 @@ public class PathManager : MonoBehaviour
             openNodes.Remove(nodo);
             for (int i = 0; i < nodo.adyacentNodesMod.Count; i++)
             {
+                if (nodo.adyacentNodesMod.Count <= 0)
+                {
+                    Debug.Log("EMPTY NODO");
+                }
                 if (!nodo.adyacentNodesMod[i].isOpenMod)
                 {
                     openNodes.Add(nodo.adyacentNodesMod[i]);
@@ -112,11 +121,11 @@ public class PathManager : MonoBehaviour
 
     NodeClass SelectNodes()
     {
-        if (algo == Algoritmos.BreathFirst)
+        if (Algoritmo == Algoritmos.BreathFirst)
         {
             return openNodes[0];
         }
-        else if (algo == Algoritmos.DepthFirst)
+        else if (Algoritmo == Algoritmos.DepthFirst)
         {
             return openNodes[openNodes.Count - 1];
         }
