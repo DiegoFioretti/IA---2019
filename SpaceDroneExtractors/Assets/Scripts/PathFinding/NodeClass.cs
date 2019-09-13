@@ -11,12 +11,14 @@ public class NodeClass
 
     private List<NodeClass> adyacentNodes;
     private bool isOpen = false;
-
+    /*
     private float minX;
     private float maxX;
     private float minZ;
-    private float maxZ;
+    private float maxZ;*/
 
+    private int _gridPosX;
+    private int _gridPosY;
     private NodeClass parent;
     private NodeClass auxNode;
     private Vector3 nodeSize;
@@ -35,6 +37,18 @@ public class NodeClass
         get { return position; }
     }
 
+    public int gridPosX
+    {
+        set { _gridPosX = value; }
+        get { return _gridPosX; }
+    }
+
+    public int gridPosY
+    {
+        set { _gridPosY = value; }
+        get { return _gridPosY; }
+    }
+
     public Vector3 sizeMod
     {
         set { nodeSize = value; }
@@ -45,14 +59,6 @@ public class NodeClass
     {
         set { parent = value; }
         get { return parent; }
-    }
-
-    public void setSearchRange(float range)
-    {
-        minX = posMod.x - range;
-        maxX = posMod.x + range;
-        minZ = posMod.z - range;
-        maxZ = posMod.z + range;
     }
 
     public bool Obstructed
@@ -91,7 +97,7 @@ public class NodeClass
         }*/
         get { return value; }
     }
-
+    /*
     public void SearchAdyacent(List<NodeClass> nodes)
     {
         if (nodes != null || nodes.Count > 0)
@@ -105,7 +111,7 @@ public class NodeClass
                 }
             }
         }
-    }
+    }*/
 
     public bool isOpenMod
     {

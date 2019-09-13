@@ -15,22 +15,30 @@ public class NodeGrid : MonoBehaviour
     int maxNodes = 0;
     //List<NodeClass> nodes;
 
-    [SerializeField] private NodeClass[] nodes;
+    [SerializeField] private NodeClass[,] nodes;
     //public GameObject[] nodesPosition;
 
     void Awake()
     {
-        maxNodes = (int)(gridDimesion.z * gridDimesion.x);
-        nodes = new NodeClass[1000];
-        for (float i = (transform.position.z + (gridDimesion.z / 2) - (nodeSize.z / 2)); i > (transform.position.z - (gridDimesion.z / 2)); i = (i - nodeGap))
+        //maxNodes = (int)(gridDimesion.z * gridDimesion.x);
+        int xwidth = (int)gridDimesion.x / ((int)nodeSize.x + (int)nodeGap);
+        int yheight = (int)gridDimesion.z / ((int)nodeSize.z + (int)nodeGap);
+        nodes = new NodeClass[xwidth,yheight];
+        Vector3 auxPosition = new Vector3(0,0,0);
+        auxPosition.y = transform.position.y;
+        for (int i = 0; i < xwidth; i++)
         {
-            for (float j = (transform.position.x - (gridDimesion.x / 2) + (nodeSize.x / 2)); j < (transform.position.x + (gridDimesion.x / 2)); j = (j + nodeGap))
+            auxPosition.z = transform.position.z - (gridDimesion.z / 2) + ((nodeSize.z + nodeGap) * i);
+            for (int j = 0; j < yheight; j++)
             {
-                nodes[cantNodes] = new NodeClass();
-                nodes[cantNodes].posMod = new Vector3(j, transform.position.y, i);
-                //nodes[cantNodes].Obstructed = true;
-                //nodes[cantNodes].Value = -1;
-                nodes[cantNodes].sizeMod = nodeSize;
+                auxPosition.x = transform.position.x - (gridDimesion.x / 2) + ((nodeSize.x + nodeGap) * j);
+                nodes[i,j] = new NodeClass();
+                nodes[i,j].posMod = auxPosition;
+                nodes[i,j].gridPosX = i;
+                nodes[i,j].gridPosY = j;
+                //nodes[i,j].Obstructed = true;
+                //nodes[i,j].Value = -1;
+                nodes[i,j].sizeMod = nodeSize;
                 cantNodes++;
             }
         }
@@ -41,7 +49,7 @@ public class NodeGrid : MonoBehaviour
         get { return cantNodes; }
     }
 
-    public NodeClass[] GetNodes
+    public NodeClass[,] GetNodes
     {
         get { return nodes; }
     }
@@ -55,9 +63,9 @@ public class NodeGrid : MonoBehaviour
         {
             foreach (NodeClass n in nodes)
             {
-                if (n.Obstructed)
-                    Gizmos.color = Color.red;
-                else
+                //if (n.Obstructed)
+                //    Gizmos.color = Color.red;
+                //else
                     Gizmos.color = Color.grey;
                 Gizmos.DrawCube(n.posMod, n.sizeMod);
             }
