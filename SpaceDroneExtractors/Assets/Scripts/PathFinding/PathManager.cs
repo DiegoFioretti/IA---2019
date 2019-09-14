@@ -5,7 +5,6 @@ using UnityEngine;
 public class PathManager : MonoBehaviour
 {
     [SerializeField] private GameObject nodeGrid;
-    [SerializeField] private float nodeSearchDistance;
     //[SerializeField] private GameObject originNode;
     //[SerializeField] private GameObject objectiveNode;
 
@@ -21,19 +20,19 @@ public class PathManager : MonoBehaviour
         openNodes = new List<NodeClass>();
         closedNodes = new List<NodeClass>();
         NodeGrid grid = nodeGrid.GetComponent<NodeGrid>();
-
-        NodeClass auxNode;
-        /*for (int i = 0; i < grid.GetNodeCant; i++)
+        
+        for (int i = 0; i < grid.getXWidth; i++)
         {
-            auxNode = grid.GetNodes[i];
-            existingNodes.Add(auxNode);
-        }*/
+            for (int j = 0; j < grid.getYHeight; j++)
+            {
+                existingNodes.Add(grid.GetNodes[i,j]);
+            }
+        }
 
-        /*for (int i = 0; i < existingNodes.Count; i++)
+        for (int i = 0; i < existingNodes.Count; i++)
         {
-            existingNodes[i].setSearchRange(nodeSearchDistance);
             existingNodes[i].SearchAdyacent(existingNodes);
-        }*/
+        }
 
     }
 

@@ -24,7 +24,7 @@ public class NodeClass
     private Vector3 nodeSize;
     private Vector3 position;
     private bool isObstructed = false;
-    private int value;
+    private int nodeValue;
 
     private void Awake()
     {
@@ -75,6 +75,7 @@ public class NodeClass
                 isObstructed = false;
             }
         }*/
+        set { isObstructed = value; }
         get { return isObstructed; }
     }
 
@@ -95,23 +96,27 @@ public class NodeClass
                 }
             }
         }*/
-        get { return value; }
+        set { nodeValue = value; }
+        get { return nodeValue; }
     }
-    /*
+
     public void SearchAdyacent(List<NodeClass> nodes)
     {
-        if (nodes != null || nodes.Count > 0)
+        if (nodes != null)
         {
             for (int i = 0; i < nodes.Count; i++)
             {
-                if (nodes[i].posMod.x < maxX && nodes[i].posMod.x > minX && nodes[i].posMod.z < maxZ && nodes[i].posMod.z > minZ && nodes[i] != this)
+                if (nodes[i].gridPosX == _gridPosX + 1 || nodes[i].gridPosX == _gridPosX - 1 || nodes[i].gridPosY == _gridPosY + 1 || nodes[i].gridPosY == _gridPosY - 1)
                 {
-                    auxNode = nodes[i];
-                    adyacentNodes.Add(auxNode);
+                    adyacentNodes.Add(nodes[i]);
                 }
             }
         }
-    }*/
+        if (adyacentNodes.Count <= 0)
+        {
+            Debug.Log("NO ADYACENTS");
+        }
+    }
 
     public bool isOpenMod
     {

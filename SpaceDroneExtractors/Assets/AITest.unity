@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.09215022, g: 0.13507432, b: 0.19923136, a: 1}
+  m_IndirectSpecularColor: {r: 0.09185531, g: 0.13507664, b: 0.1992408, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -368,9 +368,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a45cbc7b261bbf4d90ecc2c10179bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridDimesion: {x: 30, y: 1, z: 30}
+  gridDimesion: {x: 25, y: 1, z: 25}
   nodeGap: 1
-  nodeSize: {x: 1, y: 1, z: 1}
+  nodeSize: {x: 2, y: 1, z: 2}
   searchDistance: 2
 --- !u!1 &1011587615
 GameObject:
@@ -386,7 +386,6 @@ GameObject:
   - component: {fileID: 1011587617}
   - component: {fileID: 1011587622}
   - component: {fileID: 1011587623}
-  - component: {fileID: 1011587616}
   - component: {fileID: 1011587621}
   m_Layer: 0
   m_Name: MiningDrone
@@ -395,28 +394,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!195 &1011587616
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011587615}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.99999994
-  m_BaseOffset: 0.49999997
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &1011587617
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -501,7 +478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e934bb93fcaa7484d8b6b08ab8b144b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movSpeed: 0
+  movSpeed: 2
   maxGold: 99
   currentGold: 0
   doesMineExist: 0
@@ -536,7 +513,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeGrid: {fileID: 694165048}
-  nodeSearchDistance: 2
   Algoritmo: 0
 --- !u!1 &1108880091
 GameObject:
